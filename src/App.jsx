@@ -1,24 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Courses, Header } from './components';
 
 import styles from './App.module.css';
 
-// use mocked data till API implementation
-// import { mockedAuthorsList, mockedCoursesList } from './constants';
-
-// Task 2 and 3 - wrap your App with redux Provider and BrowserRouter in src/index.js
+// TODO: will be removed after API calls be added
+import { mockedAuthorsList, mockedCoursesList } from './constants';
+import { CourseInfo } from './components/CourseInfo';
 
 function App() {
-	// write your code here
+	const [showCourseId, setShowCourseId] = useState();
 
 	return (
 		<>
 			<Header />
 			<div className={styles.container}>
-				<div className={styles.wrapper}>
-					<Courses />
-				</div>
+				{showCourseId ? (
+					<CourseInfo
+						coursesList={mockedCoursesList}
+						showCourseId={showCourseId}
+						authorsList={mockedAuthorsList}
+						onBack={() => setShowCourseId(null)}
+					/>
+				) : (
+					<Courses
+						handleShowCourse={setShowCourseId}
+						coursesList={mockedCoursesList}
+						authorsList={mockedAuthorsList}
+					/>
+				)}
 			</div>
 		</>
 	);

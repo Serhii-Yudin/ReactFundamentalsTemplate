@@ -1,42 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 
+import { CourseCard, SearchBar } from './components';
 import { Button } from '../../common';
-import { mockedCoursesList } from '../../constants';
-import { CourseInfo } from '../CourseInfo';
-import { CourseCard } from './components';
+import { ADD_NEW_COURSE } from './constants';
 
 import styles from './styles.module.css';
 
 export const Courses = ({ coursesList, authorsList, handleShowCourse }) => {
-	const isListEmpty = !mockedCoursesList.length;
-	// write your code here
+	const [courses, setCourses] = useState(coursesList);
 
-	// for EmptyCourseListComponent container use data-testid="emptyContainer" attribute
-	// for button in EmptyCourseListComponent add data-testid="addCourse" attribute
-	if (isListEmpty) {
-		return (
-			<>
-				<div className={styles.panel}>
-					<div className={styles.wrapper}>
-						<h1 className={styles.title}>Your list is empty</h1>
-						<p>Please use 'Add New Course' button to add your first course</p>
-						<div className={styles.empty_list_button_wrapper}>
-							<Button buttonText='Add new course' data-testid='addCourse' />
-						</div>
-					</div>
-				</div>
-			</>
+	const handleSearch = (value) => {
+		const searchedCourses = coursesList.filter(
+			(course) =>
+				course.title.toLowerCase().indexOf(value) >= 0 ||
+				course.id.indexOf(value) >= 0
 		);
-	} else {
-	}
-	return (
+
+		setCourses(searchedCourses);
+	};
+
+	return courses.length ? (
 		<>
-			<div className={styles.courses_button_wrapper}>
-				<Button buttonText='Add new' data-testid='addCourse' />
+			<div className={styles.panel}>
+				<SearchBar getSearchValue={handleSearch} />
+				<Button handleClick={() => null} buttonText={ADD_NEW_COURSE} />
 			</div>
-			{mockedCoursesList.map((course) => (
-				<CourseCard course={course} key={course.id} />
+			{courses.map((course) => (
+				<CourseCard
+					key={course.id}
+					{...course}
+					authorsList={authorsList}
+					handleShowCourse={handleShowCourse}
+				/>
 			))}
 		</>
+	) : (
+		<div>
+			<h1>Your List Is Empty</h1>
+			<Button buttonText='Add new course' />
+		</div>
 	);
 };

@@ -5,13 +5,16 @@ import styles from './styles.module.css';
 export const Button = ({
 	buttonText,
 	handleClick,
-	'data-testid': dataTestId,
-}) => (
-	<button
-		className={styles.button}
-		onClick={handleClick}
-		data-testid={dataTestId}
-	>
-		{buttonText}
-	</button>
-);
+	className,
+	type = 'button',
+}) => {
+	return (
+		<button
+			type={type}
+			className={`${styles.button} ${className}`}
+			onClick={handleClick}
+		>
+			{buttonText}
+		</button>
+	);
+};

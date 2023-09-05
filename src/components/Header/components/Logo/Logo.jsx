@@ -1,11 +1,7 @@
 import React from 'react';
 
+import logo from '../../../../assets/logo.gif';
+
 import styles from './styles.module.css';
 
-export const Logo = () => (
-	<img
-		src='https://cdn.logo.com/hotlink-ok/logo-social.png'
-		className={styles.logo}
-		alt='logo'
-	/>
-);
+export const Logo = () => <img className={styles.logo} src={logo} alt='logo' />;

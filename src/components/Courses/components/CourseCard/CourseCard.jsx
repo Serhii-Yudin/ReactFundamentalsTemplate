@@ -1,37 +1,50 @@
 import React from 'react';
 
 import { Button } from '../../../../common';
-import { formatCreationDate, getCourseDuration } from '../../../../helpers';
+import { SHOW_COURSE } from './constants';
+import { getCourseDuration, formatCreationDate } from '../../../../helpers';
 
 import styles from './styles.module.css';
 
-export const CourseCard = ({ course, handleShowCourse }) => {
-	// write your code here
-
+export const CourseCard = ({
+	title,
+	description,
+	authors,
+	authorsList,
+	duration,
+	creationDate,
+	id,
+	handleShowCourse,
+}) => {
+	const getAuthors = () => {
+		return authorsList
+			.filter((author) => authors.includes(author.id))
+			.map((item) => item.name)
+			.join(', ');
+	};
 	return (
 		<div className={styles.cardContainer} data-testid='courseCard'>
 			<div className={styles.cardText}>
-				<h2>{course.title}</h2>
-				<p>{course.description}</p>
+				<h2>{title}</h2>
+				<p>{description}</p>
 			</div>
 			<div className={styles.cardDetails}>
 				<p>
 					<b>Authors: </b>
-					{course.authors.join(', ')}
+					{getAuthors()}
 				</p>
 				<p>
-					<b>Duration: </b>
-					<span>{getCourseDuration(course.duration)} hours</span>
+					<b>Duration:</b>
+					<span>{getCourseDuration(duration)}</span>
 				</p>
 				<p>
 					<b>Created: </b>
-					<span>{formatCreationDate(course.creationDate)}</span>
+					<span>{formatCreationDate(creationDate)}</span>
 				</p>
-				<div className={styles.buttonGroup}>
-					<Button buttonText='Show course' />
-					<Button buttonText='Delete' data-testid='deleteCourse' />
-					<Button buttonText='Update' data-testid='updateCourse' />
-				</div>
+				<Button
+					buttonText={SHOW_COURSE}
+					handleClick={() => handleShowCourse(id)}
+				/>
 			</div>
 		</div>
 	);
