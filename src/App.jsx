@@ -10,7 +10,7 @@ function App() {
 	// write your code here
 
 	return (
-		<h1>App Component</h1>
+		<h1>App Componen1t</h1>
 	);
 }
 
